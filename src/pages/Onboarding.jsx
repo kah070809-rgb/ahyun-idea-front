@@ -47,7 +47,7 @@ const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 80px;
+    //padding-bottom: 80px;
     width: 100%;
 `;
 
@@ -87,6 +87,7 @@ const StartButton = styled.button`
     color: #333;
     font-size: 18px;
     font-weight: 700;
+    margin-bottom: 60px;
     cursor: pointer;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 
