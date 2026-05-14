@@ -15,7 +15,7 @@ import homeIconImg from "../image/home2.svg";
 import mapIconImg from "../image/map-pin2.svg";
 import emergencyIconImg from "../image/alert-triangle.svg";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.API_BASE_URL;
 
 const Chat = () => {
     const navigate = useNavigate();
