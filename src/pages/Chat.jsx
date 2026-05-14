@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 // 1. 별도로 분리한 모달 컴포넌트 불러오기
 import EmergencyModal from "./EmergencyModal";
@@ -18,8 +17,6 @@ import emergencyIconImg from "../image/alert-triangle.svg";
 const API_BASE_URL = import.meta.env.API_BASE_URL;
 
 const Chat = () => {
-    const navigate = useNavigate();
-
     // 앱 상태 관리 ('IDLE': 대화전, 'TALKING': 대화중, 'ARRIVED': 목적지 도착)
     const [status, setStatus] = useState("IDLE");
     const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
@@ -34,8 +31,8 @@ const Chat = () => {
     );
 
     // 추후 UI 확장용 위험도 상태
-    const [riskLevel, setRiskLevel] = useState("NORMAL");
-    const [suggestedAction, setSuggestedAction] = useState("KEEP_TALKING");
+    const [, setRiskLevel] = useState("NORMAL");
+    const [, setSuggestedAction] = useState("KEEP_TALKING");
 
     // ==========================================
     // 🎤 음성 인식 및 API 통신 로직 (STT & TTS)
