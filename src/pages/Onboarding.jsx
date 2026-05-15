@@ -55,7 +55,7 @@ const ContentWrapper = styled.div`
 
     /* 화면 하단 중앙 고정 방식 */
     position: absolute;
-    bottom: 60px; /* 바닥에서 80px */
+    bottom: 40px; /* 바닥에서 80px */
     left: 50%; /* 왼쪽에서 50% 지점으로 이동 */
     transform: translateX(
         -50%

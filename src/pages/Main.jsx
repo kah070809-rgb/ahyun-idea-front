@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import lighthouseGroup from "../image/Group20.png";
-//import lightgroup from "../image/Group13.png";
+import lighthouse from "../image/Group12.png";
 import mapImg from "../image/map-pin1.svg";
 import callImg from "../image/Vector.svg";
 import homeImg from "../image/home1.svg";
@@ -10,6 +9,7 @@ import bellImg from "../image/bell.svg";
 import settingImg from "../image/settings.svg";
 import userImg from "../image/user.svg";
 import map from "../image/map.png";
+import { keyframes } from "styled-components";
 
 const Main = () => {
     const navigate = useNavigate();
@@ -36,34 +36,29 @@ const Main = () => {
                 </GreetingSection>
 
                 <CenterSection>
-                    {/* ✨ 나중에 직접 코드로 파동을 만들고 싶을 때 아래 주석을 해제하세요 */}
-                    {/* <WaveContainer>
-                        <RingWave $delay="0s" />
-                        <RingWave $delay="1.2s" />
-                        <RingWave $delay="2.4s" />
-                    </WaveContainer> 
-                    */}
-
-                    {/* 등대 + 빛 + 원 이미지 영역 */}
-                    <LighthouseArea>
-                        <MainLighthouseImage
-                            src={lighthouseGroup}
-                            alt="등대와 빛"
-                        />
-                    </LighthouseArea>
+                    {/* 등대와 파장을 감싸는 전용 영역 */}
+                    <LighthouseVisualArea>
+                        {/* image_0.png와 유사한 뒤쪽 파장 효과 */}
+                        <WaveContainer>
+                            <RingWave $delay="0s" />
+                            <RingWave $delay="1.2s" />
+                            <RingWave $delay="2.4s" />
+                        </WaveContainer>
+                        {/* 등대 이미지를 앞으로 배치 */}
+                        <MainLighthouseImage src={lighthouse} alt="등대와 빛" />
+                    </LighthouseVisualArea>
 
                     {/* 메인 액션 버튼 영역 */}
                     <ActionButtons>
                         <SubButton>
-                            {/* 📍 아이콘 대체 */}
                             <Icon>
                                 <img src={mapImg} alt="지도 경로" />
                             </Icon>
-                            <span>
+                            <BText>
                                 지도로
                                 <br />
                                 안전 경로 확인
-                            </span>
+                            </BText>
                         </SubButton>
                         <MainGlowingButton onClick={() => navigate("/chat")}>
                             실시간 AI
@@ -71,62 +66,55 @@ const Main = () => {
                             안심 대화 시작
                         </MainGlowingButton>
                         <SubButton>
-                            {/* 📞 아이콘 대체 */}
                             <Icon>
                                 <img src={callImg} alt="긴급 연락처" />
                             </Icon>
-                            <span>
+                            <BText>
                                 긴급 연락처 /<br />
                                 도움 요청
-                            </span>
+                            </BText>
                         </SubButton>
                     </ActionButtons>
                 </CenterSection>
 
                 <StatusSection>
                     <StatusTitle>오늘의 귀가</StatusTitle>
-                    <img src={map} alt="" />
+                    <img src={map} alt="" style={{ width: "100%" }} />
                 </StatusSection>
 
                 <BottomSpacer />
             </ScrollArea>
 
-            {/* ✨ 하단 내비게이션 바 (설정하신 화면 너비 내에 고정) */}
             <FixedBottomNav>
                 <NavItem $active={true}>
-                    {/* 🏠 아이콘 대체 */}
                     <NavIcon>
                         <img src={homeImg} alt="홈" />
                     </NavIcon>
-                    <span>홈</span>
+                    <Text>홈</Text>
                 </NavItem>
                 <NavItem>
-                    {/* 📍 아이콘 대체 */}
                     <NavIcon>
                         <img src={mapImg} alt="지도" />
                     </NavIcon>
-                    <span>지도</span>
+                    <Text>지도</Text>
                 </NavItem>
                 <NavItem>
-                    {/* 🔔 아이콘 대체 */}
                     <NavIcon>
                         <img src={bellImg} alt="긴급" />
                     </NavIcon>
-                    <span>긴급</span>
+                    <Text>긴급</Text>
                 </NavItem>
                 <NavItem onClick={() => navigate("/settings")}>
-                    {/* ⚙️ 아이콘 대체 */}
                     <NavIcon>
                         <img src={settingImg} alt="설정" />
                     </NavIcon>
-                    <span>설정</span>
+                    <Text>설정</Text>
                 </NavItem>
                 <NavItem>
-                    {/* 👤 아이콘 대체 */}
                     <NavIcon>
                         <img src={userImg} alt="마이페이지" />
                     </NavIcon>
-                    <span>마이페이지</span>
+                    <Text>마이페이지</Text>
                 </NavItem>
             </FixedBottomNav>
         </Container>
@@ -139,18 +127,15 @@ export default Main;
 // 🎨 스타일 정의
 // ==========================================
 
-/* ✨ 코드로 만드는 파장 애니메이션 주석 */
-/*
 const wavePulse = keyframes`
-    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.9; }
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
     100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
 `;
-*/
 
 const Container = styled.div`
     width: 100%;
-    max-width: 430px; /* 일반적인 모바일 최대 너비, 프로젝트 설정에 맞게 조절하세요 */
-    margin: 0 auto; /* 중앙 정렬 */
+    max-width: 430px;
+    margin: 0 auto;
     height: 100dvh;
     background-color: #1c1c3c;
     color: white;
@@ -208,8 +193,8 @@ const GreetingText = styled.div`
 const UserName = styled.span`
     color: #e9b25b;
 `;
-const SubText = styled.p`
-    font-size: 20px;
+const SubText = styled.div`
+    font-size: 19px;
     color: #fff4f4;
     font-family: "pretendard-light";
     margin-top: 10px;
@@ -222,55 +207,63 @@ const CenterSection = styled.div`
     align-items: center;
     width: 100%;
     padding: 20px 0;
-    min-height: 480px;
 `;
 
-const LighthouseArea = styled.div`
+/* ✨ 등대와 파장을 묶어주는 래퍼 */
+const LighthouseVisualArea = styled.div`
     position: relative;
-    width: 324px;
-    height: 314px;
+    width: 246px;
+    height: 184px;
     display: flex;
     justify-content: center;
+    align-items: center; /* 등대 이미지와 파장을 정중앙에 배치 */
 `;
 
 const MainLighthouseImage = styled.img`
-    width: 324px;
-    height: 314px;
+    width: 246px;
+    height: 184px;
     position: relative;
-    z-index: 10;
+    z-index: 10; /* 파장보다 앞에 배치 */
 `;
 
-/* ✨ 코드로 만드는 파장 스타일 주석 */
-/*
+/* ✨ 파장 효과 스타일 수정 */
 const WaveContainer = styled.div`
     position: absolute;
-    top: 28%;
+    top: 50%;
     left: 50%;
-    width: 0; 
+    width: 0;
     height: 0;
     z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 const RingWave = styled.div`
     position: absolute;
+
+    /* 애니메이션이 시작되기 전에도 이 위치에 박혀 있도록 명시 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 2px solid rgba(233, 178, 91, 0.4);
-    box-shadow: 0 0 10px rgba(233, 178, 91, 0.2);
-    animation: ${wavePulse} 4s infinite linear;
+    border: 2px solid #e9b25b;
+    background: radial-gradient(
+        circle,
+        rgba(246, 172, 52, 0.1) 0%,
+        transparent 70%
+    );
+
+    /* forwards를 추가하거나 초기 상태를 위와 같이 맞추면 튐 현상이 사라집니다 */
+    animation: ${wavePulse} 4s infinite ease-out;
     animation-delay: ${(props) => props.$delay};
 `;
-*/
 
 const ActionButtons = styled.div`
     display: flex;
     align-items: flex-end;
     gap: 15px;
-    margin-top: -30px;
+    margin-top: -20px;
     z-index: 20;
 `;
 
@@ -291,22 +284,54 @@ const SubButton = styled.button`
 `;
 
 const MainGlowingButton = styled.button`
-    width: 140px;
-    height: 140px;
-    background: linear-gradient(145deg, #fceda8, #e9b25b);
+    /* 기존 크기 및 배치 유지 */
+    width: 136px;
+    height: 136px;
+    margin-top: 50px;
     border-radius: 50%;
-    border: 4px solid #1c1c3c;
-    color: #1c1c3c;
-    font-weight: 800;
-    font-size: 1rem;
-    line-height: 1.3;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     transition: transform 0.2s;
+    position: relative; /* 광채 위치 기준점 */
+
+    /* 1. 유리(Glass) 효과 추가 */
+    background: rgba(251, 216, 181, 0.8); /* 반투명 배경 */
+    backdrop-filter: blur(20px); /* 유리 뒤쪽 흐림 (이미지 수치 반영) */
+    -webkit-backdrop-filter: blur(20px);
+
+    /* 2. 테두리 수정 (이미지의 얇은 흰색 선) */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+
+    /* 3. 안쪽 그림자 (유리의 깊이감/굴절 표현) */
+    box-shadow:
+        inset 0 0 15px rgba(255, 255, 255, 0.2),
+        0 10px 30px rgba(0, 0, 0, 0.3);
+
+    /* 4. 뒤쪽 광채 (레이어 흐림 효과 - 가상 요소 사용) */
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: #fbba6c; /* 기존 메인 노란색 */
+        border-radius: 50%;
+        filter: blur(20px); /* 레이어 흐림 수치 반영 */
+        z-index: -1; /* 버튼 글자보다 뒤로 */
+        opacity: 0.7; /* 광채 투명도 */
+    }
+
+    /* 글자 속성 (건드리지 않음) */
+    color: #000000;
+    font-family: "Pretendard-Bold";
+    font-size: 20px;
+    line-height: 1.3;
+
     &:active {
         transform: scale(0.95);
     }
@@ -321,7 +346,7 @@ const StatusTitle = styled.h3`
 `;
 
 const FixedBottomNav = styled.div`
-    position: absolute; /* fixed가 아니라 absolute를 써서 Container 하단에 고정 */
+    position: absolute;
     bottom: 0;
     width: 100%;
     height: 85px;
@@ -343,8 +368,9 @@ const NavItem = styled.div`
     cursor: pointer;
 `;
 const NavIcon = styled.div`
-    font-size: 1.5rem;
+    font-size: 12px;
     margin-bottom: 4px;
+    color: #ffffff;
 `;
 const Icon = styled.div`
     font-size: 1.6rem;
@@ -353,4 +379,16 @@ const Icon = styled.div`
 `;
 const BottomSpacer = styled.div`
     height: 100px;
+`;
+
+const Text = styled.div`
+    font-size: 12px;
+    font-family: "Pretendard-Light";
+    color: #ffffff;
+`;
+
+const BText = styled.div`
+    font-size: 14px;
+    font-family: "Pretendard-Light";
+    color: #ffffff;
 `;
