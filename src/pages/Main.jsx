@@ -3,6 +3,13 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import lighthouseGroup from "../image/Group20.png";
 //import lightgroup from "../image/Group13.png";
+import mapImg from "../image/map-pin1.svg";
+import callImg from "../image/Vector.svg";
+import homeImg from "../image/home1.svg";
+import bellImg from "../image/bell.svg";
+import settingImg from "../image/settings.svg";
+import userImg from "../image/user.svg";
+import map from "../image/map.png";
 
 const Main = () => {
     const navigate = useNavigate();
@@ -48,7 +55,10 @@ const Main = () => {
                     {/* 메인 액션 버튼 영역 */}
                     <ActionButtons>
                         <SubButton>
-                            <Icon>📍</Icon>
+                            {/* 📍 아이콘 대체 */}
+                            <Icon>
+                                <img src={mapImg} alt="지도 경로" />
+                            </Icon>
                             <span>
                                 지도로
                                 <br />
@@ -61,7 +71,10 @@ const Main = () => {
                             안심 대화 시작
                         </MainGlowingButton>
                         <SubButton>
-                            <Icon>📞</Icon>
+                            {/* 📞 아이콘 대체 */}
+                            <Icon>
+                                <img src={callImg} alt="긴급 연락처" />
+                            </Icon>
                             <span>
                                 긴급 연락처 /<br />
                                 도움 요청
@@ -71,8 +84,8 @@ const Main = () => {
                 </CenterSection>
 
                 <StatusSection>
-                    <StatusTitle>오늘의 귀가 현황</StatusTitle>
-                    <StatusCard />
+                    <StatusTitle>오늘의 귀가</StatusTitle>
+                    <img src={map} alt="" />
                 </StatusSection>
 
                 <BottomSpacer />
@@ -81,23 +94,38 @@ const Main = () => {
             {/* ✨ 하단 내비게이션 바 (설정하신 화면 너비 내에 고정) */}
             <FixedBottomNav>
                 <NavItem $active={true}>
-                    <NavIcon>🏠</NavIcon>
+                    {/* 🏠 아이콘 대체 */}
+                    <NavIcon>
+                        <img src={homeImg} alt="홈" />
+                    </NavIcon>
                     <span>홈</span>
                 </NavItem>
                 <NavItem>
-                    <NavIcon>📍</NavIcon>
+                    {/* 📍 아이콘 대체 */}
+                    <NavIcon>
+                        <img src={mapImg} alt="지도" />
+                    </NavIcon>
                     <span>지도</span>
                 </NavItem>
                 <NavItem>
-                    <NavIcon>🔔</NavIcon>
+                    {/* 🔔 아이콘 대체 */}
+                    <NavIcon>
+                        <img src={bellImg} alt="긴급" />
+                    </NavIcon>
                     <span>긴급</span>
                 </NavItem>
                 <NavItem onClick={() => navigate("/settings")}>
-                    <NavIcon>⚙️</NavIcon>
+                    {/* ⚙️ 아이콘 대체 */}
+                    <NavIcon>
+                        <img src={settingImg} alt="설정" />
+                    </NavIcon>
                     <span>설정</span>
                 </NavItem>
                 <NavItem>
-                    <NavIcon>👤</NavIcon>
+                    {/* 👤 아이콘 대체 */}
+                    <NavIcon>
+                        <img src={userImg} alt="마이페이지" />
+                    </NavIcon>
                     <span>마이페이지</span>
                 </NavItem>
             </FixedBottomNav>
@@ -145,26 +173,35 @@ const ScrollArea = styled.div`
 const HeaderSection = styled.div`
     padding: 20px 20px 0 20px;
 `;
-const Header = styled.h1`
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin-bottom: 10px;
+const Header = styled.div`
+    font-size: 34px;
+    color: #ffffff;
+    font-family: "TitleFonts", sans-serif;
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.6),
+        0 0 16px rgba(255, 255, 255, 0.3);
 `;
+
 const Highlight = styled.span`
-    color: #e9b25b;
+    color: #f6ac34;
+    text-shadow:
+        0 0 8px rgba(246, 172, 52, 0.6),
+        0 0 16px rgba(246, 172, 52, 0.3);
 `;
 const Divider = styled.div`
-    width: 100%;
-    height: 1px;
+    width: 98%;
+    height: 2px;
+    margin-top: 11px;
+    margin-bottom: 25px;
     background: rgba(255, 255, 255, 0.15);
 `;
 
 const GreetingSection = styled.div`
-    padding: 30px 25px 10px 25px;
+    padding: 0px 25px 10px 25px;
 `;
-const GreetingText = styled.h2`
-    font-size: 1.8rem;
-    font-weight: 700;
+const GreetingText = styled.div`
+    font-size: 36px;
+    font-family: "Pretendard-ExtraBold";
     line-height: 1.3;
     margin: 0;
 `;
@@ -172,8 +209,9 @@ const UserName = styled.span`
     color: #e9b25b;
 `;
 const SubText = styled.p`
-    font-size: 1rem;
-    color: #aaaaaa;
+    font-size: 20px;
+    color: #fff4f4;
+    font-family: "pretendard-light";
     margin-top: 10px;
 `;
 
@@ -280,12 +318,6 @@ const StatusSection = styled.div`
 const StatusTitle = styled.h3`
     font-size: 1.1rem;
     margin-bottom: 15px;
-`;
-const StatusCard = styled.div`
-    width: 100%;
-    height: 150px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
 `;
 
 const FixedBottomNav = styled.div`

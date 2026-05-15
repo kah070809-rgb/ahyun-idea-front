@@ -7,7 +7,7 @@ export const wavePulse = keyframes`
 
 export const Container = styled.div`
     width: 100%;
-    max-width: 430px;
+    max-width: 420px;
     margin: 0 auto;
     height: 100dvh;
     background-color: #1a1a2e;
@@ -20,6 +20,7 @@ export const Container = styled.div`
 export const ScrollArea = styled.div`
     flex: 1;
     overflow-y: auto;
+    margin-bottom: 30px;
     scrollbar-width: none;
     &::-webkit-scrollbar {
         display: none;
@@ -32,12 +33,21 @@ export const HeaderSection = styled.div`
     align-items: center;
 `;
 export const Header = styled.div`
-    font-size: 1.6rem;
-    font-weight: 800;
+    font-size: 32px;
+    color: #ffffff;
+    font-family: "TitleFonts", sans-serif;
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.6),
+        0 0 16px rgba(255, 255, 255, 0.3);
 `;
+
 export const Highlight = styled.span`
-    color: #e9b25b;
+    color: #f6ac34;
+    text-shadow:
+        0 0 8px rgba(246, 172, 52, 0.6),
+        0 0 16px rgba(246, 172, 52, 0.3);
 `;
+
 export const SettingsBtn = styled.button`
     background: none;
     border: none;
@@ -98,7 +108,7 @@ export const AIText = styled.span`
 export const MessageSection = styled.div`
     text-align: center;
     width: 320px;
-    height: 167px;
+    height: 85px;
     margin: 22px 0;
 `;
 export const MainMessage = styled.div`
@@ -158,17 +168,17 @@ export const NavButton = styled.button`
     width: 76px;
     height: 76px;
     margin-bottom: 40px;
-    background-color: #ff776d;
-    background: linear-gradient(180deg, #ff8e85 0%, #ff776d 100%);
+    background-color: #ffb336;
+    box-shadow:
+        inset 2px 2px 2px rgba(255, 255, 255, 0.4),
+        0 6px 12px rgba(0, 0, 0, 0.3);
     border: none;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow:
-        inset 0 4px 4px rgba(255, 255, 255, 0.4),
-        0 6px 12px rgba(0, 0, 0, 0.3);
+
     cursor: pointer;
 
     /* 변화를 부드럽게 만들기 위해 추가 */
@@ -253,15 +263,16 @@ export const EmergencyCircle = styled.div`
     justify-content: center;
     align-items: center;
     box-shadow:
-        inset 0 5px 10px rgba(255, 255, 255, 0.4),
-        0 10px 25px rgba(0, 0, 0, 0.5);
+        inset 2px 2px 6px 3px #fff0f040,
+        2px 2px 2px 0px #00000040;
     img {
         width: 34px;
         margin-bottom: 2px;
     }
     span {
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 800;
         color: white;
+        box-shadow: 2px 2px 2px 0px #00000040;
     }
 `;

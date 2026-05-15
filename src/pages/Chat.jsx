@@ -8,7 +8,7 @@ import EndModal from "./EndModal";
 import * as S from "./Chat.styled";
 
 // 3. 프로젝트 이미지 자원 불러오기
-import lighthouseImg from "../image/lighthouse.png";
+import lighthouseImg from "../image/Group11.png";
 import settingsIconImg from "../image/settings.svg";
 import homeIconImg from "../image/home2.svg";
 import mapIconImg from "../image/map-pin2.svg";
@@ -209,7 +209,11 @@ const Chat = () => {
                     </S.WaveContainer>
 
                     <S.LighthouseCircle>
-                        <img src={lighthouseImg} alt="등대" />
+                        <img
+                            src={lighthouseImg}
+                            alt="등대"
+                            style={{ width: "96px", height: "74px" }}
+                        />
                         <S.AIText>음성 AI</S.AIText>
                     </S.LighthouseCircle>
 
