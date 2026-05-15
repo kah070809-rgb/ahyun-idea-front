@@ -7,7 +7,7 @@ export const wavePulse = keyframes`
 
 export const Container = styled.div`
     width: 100%;
-    max-width: 430px;
+    max-width: 420px;
     margin: 0 auto;
     height: 100dvh;
     background-color: #1a1a2e;
