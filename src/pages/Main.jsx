@@ -85,7 +85,7 @@ const Main = () => {
 
                 <StatusSection>
                     <StatusTitle>오늘의 귀가</StatusTitle>
-                    <img src={map} />
+                    <img src={map} alt="" />
                 </StatusSection>
 
                 <BottomSpacer />
