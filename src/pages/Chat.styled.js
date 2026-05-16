@@ -17,6 +17,7 @@ export const Container = styled.div`
     flex-direction: column;
     overflow: hidden;
 `;
+
 export const ScrollArea = styled.div`
     flex: 1;
     overflow-y: auto;
@@ -26,12 +27,14 @@ export const ScrollArea = styled.div`
         display: none;
     }
 `;
+
 export const HeaderSection = styled.div`
     padding: 20px 20px 0px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
+
 export const Header = styled.div`
     font-size: 32px;
     color: #ffffff;
@@ -55,11 +58,14 @@ export const SettingsBtn = styled.button`
         width: 26px;
     }
 `;
+
 export const TopStatusText = styled.div`
     text-align: center;
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 0.85rem;
+    color: #fff4f4;
+    font-size: 16px;
+    font-family: "Pretendard-Light";
 `;
+
 export const CenterSection = styled.div`
     position: relative;
     display: flex;
@@ -67,6 +73,7 @@ export const CenterSection = styled.div`
     align-items: center;
     padding-top: 50px;
 `;
+
 export const LighthouseCircle = styled.div`
     position: relative;
     z-index: 10;
@@ -85,6 +92,7 @@ export const LighthouseCircle = styled.div`
         margin-bottom: 12px;
     }
 `;
+
 export const WaveContainer = styled.div`
     position: absolute;
     top: 50px;
@@ -92,6 +100,7 @@ export const WaveContainer = styled.div`
     height: 180px;
     z-index: 1;
 `;
+
 export const RingWave = styled.div`
     position: absolute;
     width: 100%;
@@ -101,22 +110,26 @@ export const RingWave = styled.div`
     animation: ${wavePulse} 4s infinite ease-out;
     animation-delay: ${(props) => props.$delay};
 `;
+
 export const AIText = styled.span`
     font-size: 1.3rem;
     font-weight: 800;
 `;
+
 export const MessageSection = styled.div`
     text-align: center;
     width: 320px;
     height: 85px;
     margin: 22px 0;
 `;
+
 export const MainMessage = styled.div`
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 22px;
+    font-family: "Pretendard-Bold";
     line-height: 1.4;
     margin-bottom: 10px;
 `;
+
 export const SubMessage = styled.div`
     color: #ffffff;
     font-size: 18px;
@@ -127,6 +140,7 @@ export const SubMessage = styled.div`
         font-weight: 500;
     }
 `;
+
 export const StartButton = styled.button`
     width: 200px;
     height: 45px;
@@ -145,6 +159,7 @@ export const StartButton = styled.button`
         transform: scale(0.97);
     }
 `;
+
 export const FixedBottomNav = styled.div`
     position: absolute;
     bottom: 0;
@@ -156,6 +171,7 @@ export const FixedBottomNav = styled.div`
     z-index: 1000;
     padding-bottom: 10px;
 `;
+
 export const NavBackgroundSVG = styled.svg`
     position: absolute;
     top: 0;
@@ -164,6 +180,7 @@ export const NavBackgroundSVG = styled.svg`
     height: 100%;
     z-index: -1;
 `;
+
 export const NavButton = styled.button`
     width: 76px;
     height: 76px;
@@ -178,16 +195,13 @@ export const NavButton = styled.button`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     cursor: pointer;
-
-    /* 변화를 부드럽게 만들기 위해 추가 */
     transition: all 0.1s ease;
 
     img {
         width: 32px;
         margin-bottom: 4px;
-        transition: transform 0.1s ease; /* 아이콘도 같이 반응하게 */
+        transition: transform 0.1s ease;
     }
 
     span {
@@ -196,22 +210,14 @@ export const NavButton = styled.button`
         font-weight: 800;
     }
 
-    /* 🖱️ 눌리는 효과 추가 */
     &:active {
-        /* 1. 버튼 전체를 살짝 아래로 내림 (Y축 이동) */
         transform: translateY(3px);
-
-        /* 2. 바닥 그림자를 줄여서 밀착된 느낌 주기 */
         box-shadow:
             inset 0 2px 4px rgba(255, 255, 255, 0.2),
             0 2px 4px rgba(0, 0, 0, 0.2);
-
-        /* 3. 아이콘도 미세하게 작아지게 */
         img {
             transform: scale(0.95);
         }
-
-        /* 4. 살짝 어둡게 피드백 */
         filter: brightness(95%);
     }
 `;
@@ -226,6 +232,7 @@ export const EmergencyWrapper = styled.div`
     margin-bottom: 70px;
     cursor: pointer;
 `;
+
 export const EmergencyGlass = styled.div`
     position: absolute;
     width: 124px;
@@ -239,6 +246,7 @@ export const EmergencyGlass = styled.div`
     );
     filter: blur(8px);
 `;
+
 export const EmergencyGlow = styled.div`
     position: absolute;
     width: 124px;
@@ -251,6 +259,7 @@ export const EmergencyGlow = styled.div`
         rgba(252, 72, 42, 0) 60%
     );
 `;
+
 export const EmergencyCircle = styled.div`
     position: relative;
     width: 90px;
@@ -263,16 +272,36 @@ export const EmergencyCircle = styled.div`
     justify-content: center;
     align-items: center;
     box-shadow:
-        inset 2px 2px 6px 3px #fff0f040,
-        2px 2px 2px 0px #00000040;
+        inset 2px 2px 2px 0px rgba(255, 255, 255, 0.25),
+        inset 2px 2px 6px 0px rgba(255, 240, 240, 0.25),
+        2px 2px 2px 0px rgba(0, 0, 0, 0.25);
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: #e54c38;
+        border-radius: 50%;
+        filter: blur(7.1px);
+        z-index: -1;
+    }
+
     img {
         width: 34px;
         margin-bottom: 2px;
     }
+
     span {
         font-size: 20px;
         font-weight: 800;
         color: white;
-        box-shadow: 2px 2px 2px 0px #00000040;
+    }
+
+    &:active {
+        transform: scale(0.95);
     }
 `;

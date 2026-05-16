@@ -17,34 +17,41 @@ import emergencyIconImg from "../image/alert-triangle.svg";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Chat = () => {
-    // 앱 상태 관리 ('IDLE': 대화전, 'TALKING': 대화중, 'ARRIVED': 목적지 도착)
     const [status, setStatus] = useState("IDLE");
     const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
     const [isEndModalOpen, setIsEndModalOpen] = useState(false);
-
-    // 마이크 상태 관리
     const [isListening, setIsListening] = useState(false);
-
-    // AI가 화면에 보여주고 읽어줄 메시지 상태 관리
     const [aiMessage, setAiMessage] = useState(
         "안녕하세요, OO님!\n귀가를 시작하겠습니다.",
     );
 
-    // 추후 UI 확장용 위험도 상태
     const [, setRiskLevel] = useState("NORMAL");
     const [, setSuggestedAction] = useState("KEEP_TALKING");
+
+    // ==========================================
+    // 🛠️ 가운데 굴곡 유지 + 양쪽 끝만 일자화 명령어
+    // ==========================================
+
+    // 1) 처음 보내주신 원본 굴곡을 100% 유지하되, 양쪽 끝 둥근 부분만 직각(일자)으로 편 배경 패스
+    const pathData =
+        "M0 0 H120 C155 0 165 62 215 62 C265 62 275 0 310 0 H430 V95 H0 Z";
+
+    // 2) 세로선 그림자를 제외하고, 오직 상단 일자 라인과 가운데 굴곡에만 빛이 들어오게 하는 그림자 패스
+    const glowPathData =
+        "M0 0 H120 C155 0 165 62 215 62 C265 62 275 0 310 0 H430";
+
+    // 3) 피그마 안쪽 그림자 색상
+    const glowColor = "rgba(255, 220, 161, 0.40)";
 
     // ==========================================
     // 🎤 음성 인식 및 API 통신 로직 (STT & TTS)
     // ==========================================
 
-    // 1. 브라우저 마이크 켜기 (STT)
     const startListening = () => {
         if (isListening) return;
 
         const SpeechRecognition =
             window.SpeechRecognition || window.webkitSpeechRecognition;
-
         if (!SpeechRecognition) {
             alert(
                 "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome을 사용해 주세요.",
@@ -64,33 +71,26 @@ const Chat = () => {
             setAiMessage("듣고 있습니다. 말씀해 주세요...");
         };
 
-        // 사용자가 말을 마치면 실행되는 함수
         recognition.onresult = async (event) => {
             const userText = event.results[0][0].transcript;
-
             setAiMessage(`"${userText}"\n인식 완료, 답변을 생성 중입니다...`);
-
-            // 백엔드로 데이터 전송
             await sendToBackend(userText);
         };
 
         recognition.onerror = (event) => {
             console.error("음성 인식 오류:", event.error);
-
             if (event.error === "not-allowed") {
                 setAiMessage(
                     "마이크 권한이 차단되었습니다.\n브라우저에서 마이크 권한을 허용해 주세요.",
                 );
                 return;
             }
-
             if (event.error === "no-speech") {
                 setAiMessage(
                     "음성이 감지되지 않았습니다.\n마이크 버튼을 눌러 다시 말씀해 주세요.",
                 );
                 return;
             }
-
             setAiMessage(
                 "음성 인식 중 오류가 발생했습니다.\n마이크 버튼을 눌러 다시 시도해 주세요.",
             );
@@ -98,16 +98,13 @@ const Chat = () => {
 
         recognition.onend = () => {
             setIsListening(false);
-            console.log("음성 인식 종료");
         };
 
         recognition.start();
     };
 
-    // 2. 백엔드 /api/ai/chat 서버와 연동하기
     const sendToBackend = async (text) => {
         let aiResponseText = "";
-
         if (!API_BASE_URL) {
             console.error("VITE_API_BASE_URL 환경변수가 설정되지 않았습니다.");
             aiResponseText =
@@ -120,60 +117,39 @@ const Chat = () => {
         try {
             const response = await fetch(`${API_BASE_URL}/api/ai/chat`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: text }),
             });
 
-            if (!response.ok) {
+            if (!response.ok)
                 throw new Error(`서버 에러 응답: ${response.status}`);
-            }
 
             const data = await response.json();
-
-            // 백엔드 ApiResponse 구조 기준
             const result = data.result;
-
             aiResponseText =
                 result?.reply ||
                 "응답을 받아왔지만 메시지 형식이 올바르지 않습니다.";
-
             setRiskLevel(result?.riskLevel || "NORMAL");
             setSuggestedAction(result?.suggestedAction || "KEEP_TALKING");
-
-            // 위험 상황이면 긴급 모달을 바로 띄우고 싶을 때 사용 가능
-            // if (result?.riskLevel === "DANGER") {
-            //     setIsEmergencyOpen(true);
-            // }
         } catch (error) {
             console.error("API 통신 실패:", error);
-
             aiResponseText =
                 "서버 연결이 불안정합니다.\n마이크 버튼을 눌러 다시 말씀해 주세요.";
         }
 
-        // 받아온 응답을 화면에 반영하고 말로 읽어주기
         setAiMessage(aiResponseText);
         speakText(aiResponseText);
     };
 
-    // 3. AI 답변 소리로 읽어주기 (TTS)
     const speakText = (text) => {
         if (!text) return;
-
         window.speechSynthesis.cancel();
-
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = "ko-KR";
         utterance.rate = 0.95;
-
         window.speechSynthesis.speak(utterance);
     };
 
-    // ==========================================
-    // 🖱️ 중앙 메인 버튼 클릭 핸들러
-    // ==========================================
     const handleMainButtonClick = () => {
         if (status === "IDLE" || status === "TALKING") {
             startListening();
@@ -243,10 +219,7 @@ const Chat = () => {
                 >
                     <defs>
                         <mask id="navMask">
-                            <path
-                                d="M0 30 C0 13.43 13.43 0 30 0 H120 C155 0 165 62 215 62 C265 62 275 0 310 0 H400 C416.57 0 430 13.43 430 30 V95 H0 V30Z"
-                                fill="white"
-                            />
+                            <path d={pathData} fill="white" />
                         </mask>
                         <radialGradient
                             id="centerHighlight"
@@ -272,19 +245,40 @@ const Chat = () => {
                         >
                             <feGaussianBlur stdDeviation="4" result="blur" />
                         </filter>
+                        <filter id="noiseFilter">
+                            <feTurbulence
+                                type="fractalNoise"
+                                baseFrequency="0.8"
+                                numOctaves="3"
+                                stitchTiles="stitch"
+                            />
+                            <feColorMatrix
+                                type="matrix"
+                                values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.14 0"
+                            />
+                        </filter>
                     </defs>
-                    <path
-                        d="M0 30 C0 13.43 13.43 0 30 0 H120 C155 0 165 62 215 62 C265 62 275 0 310 0 H400 C416.57 0 430 13.43 430 30 V95 H0 V30Z"
-                        fill="#242736"
-                    />
+
+                    {/* 배경 바 바닥 레이어 */}
+                    <path id="navPath" d={pathData} fill="#1F2434" />
+
                     <g mask="url(#navMask)">
+                        {/* 💡 양쪽 세로선을 제외하고 상단 라인+가운데 굴곡에만 안쪽 그림자 효과 적용 */}
                         <path
-                            d="M-10 32 C-10 15 15 3 30 3 H120 C155 3 165 65 215 65 C265 65 275 3 310 3 H400 C415 3 440 15 440 32"
+                            d={glowPathData}
                             fill="none"
-                            stroke="rgba(255, 255, 255, 0.3)"
-                            strokeWidth="8"
+                            stroke={glowColor}
+                            strokeWidth="6"
                             filter="url(#softGlow)"
                         />
+                        {/* 피그마 질감 텍스처 레이어 */}
+                        <use
+                            href="#navPath"
+                            filter="url(#noiseFilter)"
+                            style={{ mixBlendMode: "overlay" }}
+                        />
+
+                        {/* 중앙 하이라이트 복구 */}
                         <rect
                             x="150"
                             y="62"
@@ -295,7 +289,6 @@ const Chat = () => {
                     </g>
                 </S.NavBackgroundSVG>
 
-                {/* 홈 버튼 누르면 IDLE(초기화) 상태로 강제 이동 */}
                 <S.NavButton
                     onClick={() => {
                         setStatus("IDLE");
@@ -310,7 +303,6 @@ const Chat = () => {
                     <span>홈</span>
                 </S.NavButton>
 
-                {/* 언제든 긴급 상황 모달을 열 수 있는 센터 긴급 버튼 */}
                 <S.EmergencyWrapper onClick={() => setIsEmergencyOpen(true)}>
                     <S.EmergencyGlow />
                     <S.EmergencyGlass />
@@ -330,7 +322,6 @@ const Chat = () => {
                 isOpen={isEmergencyOpen}
                 onClose={() => setIsEmergencyOpen(false)}
             />
-
             <EndModal
                 isOpen={isEndModalOpen}
                 onClose={() => setIsEndModalOpen(false)}

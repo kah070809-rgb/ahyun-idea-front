@@ -50,7 +50,7 @@ const Main = () => {
 
                     {/* 메인 액션 버튼 영역 */}
                     <ActionButtons>
-                        <SubButton>
+                        <SubButton1>
                             <Icon>
                                 <img src={mapImg} alt="지도 경로" />
                             </Icon>
@@ -59,13 +59,13 @@ const Main = () => {
                                 <br />
                                 안전 경로 확인
                             </BText>
-                        </SubButton>
+                        </SubButton1>
                         <MainGlowingButton onClick={() => navigate("/chat")}>
                             실시간 AI
                             <br />
                             안심 대화 시작
                         </MainGlowingButton>
-                        <SubButton>
+                        <SubButton2>
                             <Icon>
                                 <img src={callImg} alt="긴급 연락처" />
                             </Icon>
@@ -73,7 +73,7 @@ const Main = () => {
                                 긴급 연락처 /<br />
                                 도움 요청
                             </BText>
-                        </SubButton>
+                        </SubButton2>
                     </ActionButtons>
                 </CenterSection>
 
@@ -128,7 +128,8 @@ export default Main;
 // ==========================================
 
 const wavePulse = keyframes`
-    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.4; }
+    //20% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.5; }
     100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
 `;
 
@@ -137,7 +138,7 @@ const Container = styled.div`
     max-width: 430px;
     margin: 0 auto;
     height: 100dvh;
-    background-color: #1c1c3c;
+    background-color: #141a3a;
     color: white;
     position: relative;
     display: flex;
@@ -267,10 +268,10 @@ const ActionButtons = styled.div`
     z-index: 20;
 `;
 
-const SubButton = styled.button`
+const SubButton1 = styled.button`
     width: 95px;
     height: 95px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(98, 98, 98, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
@@ -281,10 +282,28 @@ const SubButton = styled.button`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    box-shadow: inset -2px 2px 2px 0px rgba(255, 255, 255, 0.3);
+`;
+
+const SubButton2 = styled.button`
+    width: 95px;
+    height: 95px;
+    background: rgba(98, 98, 98, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.3);
 `;
 
 const MainGlowingButton = styled.button`
-    /* 기존 크기 및 배치 유지 */
+    /* ...기존 크기 및 배치 유지... */
     width: 136px;
     height: 136px;
     margin-top: 50px;
@@ -293,24 +312,44 @@ const MainGlowingButton = styled.button`
     justify-content: center;
     align-items: center;
     text-align: center;
-    cursor: pointer;
     transition: transform 0.2s;
-    position: relative; /* 광채 위치 기준점 */
-
-    /* 1. 유리(Glass) 효과 추가 */
-    background: rgba(251, 216, 181, 0.8); /* 반투명 배경 */
-    backdrop-filter: blur(20px); /* 유리 뒤쪽 흐림 (이미지 수치 반영) */
+    position: relative;
+    color: #000000;
+    font-family: "Pretendard-Bold";
+    font-size: 20px;
+    line-height: 1.3;
+    background: rgba(251, 221, 181, 0.5);
+    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
 
-    /* 2. 테두리 수정 (이미지의 얇은 흰색 선) */
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    /* 2. 테두리 수정: 일반 border는 제거하고 아래 방식 중 선택 */
+    border: none;
 
-    /* 3. 안쪽 그림자 (유리의 깊이감/굴절 표현) */
-    box-shadow:
-        inset 0 0 15px rgba(255, 255, 255, 0.2),
-        0 10px 30px rgba(0, 0, 0, 0.3);
-
-    /* 4. 뒤쪽 광채 (레이어 흐림 효과 - 가상 요소 사용) */
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        padding: 1px; /* 선의 두께 */
+        /* 위아래는 흰색, 양옆은 투명하게 처리 */
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.7) 0%,
+            rgba(255, 255, 255, 0) 20%,
+            rgba(255, 255, 255, 0) 80%,
+            rgba(255, 255, 255, 0.7) 100%
+        );
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+    /* 4. 뒤쪽 광채 (기존 코드 유지) */
     &::before {
         content: "";
         position: absolute;
@@ -319,26 +358,16 @@ const MainGlowingButton = styled.button`
         transform: translate(-50%, -50%);
         width: 100%;
         height: 100%;
-        background: #fbba6c; /* 기존 메인 노란색 */
+        background: #fbba6c;
         border-radius: 50%;
-        filter: blur(20px); /* 레이어 흐림 수치 반영 */
-        z-index: -1; /* 버튼 글자보다 뒤로 */
-        opacity: 0.7; /* 광채 투명도 */
-    }
-
-    /* 글자 속성 (건드리지 않음) */
-    color: #000000;
-    font-family: "Pretendard-Bold";
-    font-size: 20px;
-    line-height: 1.3;
-
-    &:active {
-        transform: scale(0.95);
+        filter: blur(20px);
+        z-index: -1;
+        opacity: 0.9;
     }
 `;
 
 const StatusSection = styled.div`
-    padding: 30px 25px;
+    padding: 0px 25px;
 `;
 const StatusTitle = styled.h3`
     font-size: 1.1rem;
@@ -350,7 +379,7 @@ const FixedBottomNav = styled.div`
     bottom: 0;
     width: 100%;
     height: 85px;
-    background-color: #15152c;
+    background-color: #141a3a;
     display: flex;
     justify-content: space-around;
     align-items: center;
